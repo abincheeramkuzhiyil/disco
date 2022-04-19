@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/disco/static/css/main.c6256ef9.css",
+    "main.js": "/disco/static/js/main.54bc0e45.js",
+    "static/js/787.f9e173cd.chunk.js": "/disco/static/js/787.f9e173cd.chunk.js",
+    "index.html": "/disco/index.html",
+    "main.c6256ef9.css.map": "/disco/static/css/main.c6256ef9.css.map",
+    "main.54bc0e45.js.map": "/disco/static/js/main.54bc0e45.js.map",
+    "787.f9e173cd.chunk.js.map": "/disco/static/js/787.f9e173cd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c6256ef9.css",
+    "static/js/main.54bc0e45.js"
+  ]
+}
