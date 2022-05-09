@@ -1,25 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
+import { useLocation } from 'react-router-dom';
 
-import Expenses from '../components/expenses/Expenses';
-import Container from '../components/ui/Container';
 import AddButton from '../components/widgets/AddButton';
+import Container from '../components/ui/Container';
+import Expenses from '../components/expenses/Expenses';
 import ExpensesNavBar from '../components/expenses/ExpensesNavBar';
+import Loading from '../components/widgets/Loading';
 
 export default function ExpensesPage() {
     const persistedExp = JSON.parse(localStorage.getItem('expenses')) || [];
-    const [expenses, setExpenses] = useState(persistedExp);
+    const [expenses, setExpenses] = useState([]);
+    const [date, setDate] = useState(null);
+    const location = useLocation();
 
     useEffect(() => {
-        getExpenses(new Date());
+        if (location.state && location.state.date) {
+            setDate(new Date(location.state.date));
+            getExpenses(new Date(location.state.date))
+        } else {
+            setDate(new Date());
+            getExpenses(new Date());
+        }
     }, []);
 
     function getExpenses(date) {
         let month = String(date.getMonth() + 1);
         month = month.length === 1 ? `0${month}` : month;
-        const dateString = `${date.getFullYear()}-${month}-${date.getDate()}`;
-        debugger;
-        setExpenses(persistedExp.filter((e) => e.date === dateString));
+
+        let day = String(date.getDate());
+        day = day.length === 1 ? `0${day}` : day;
+
+        const dateString = `${date.getFullYear()}-${month}-${day}`;
+        setExpenses(persistedExp.filter(e => e.date === dateString));
     }
 
     const styles = {
@@ -28,18 +41,22 @@ export default function ExpensesPage() {
     };
 
     return (
-        <div>
+        < div >
             <h2>Expenses</h2>
             <Grid container spacing={0}>
                 <Grid item xs={12} md={6}>
                     <Container>
-                        <ExpensesNavBar changeDate={getExpenses} />
-                        <br />
-                        <Expenses expenses={expenses}></Expenses>
+                        {(date)
+                            ? (<>
+                                <ExpensesNavBar date={date} changeDate={getExpenses} />
+                                <br />
+                                <Expenses expenses={expenses}></Expenses>
+                            </>)
+                            : <Loading />}
                     </Container>
                 </Grid>
             </Grid>
             <AddButton redirectUrl="/add-expense" />
-        </div>
+        </div >
     );
 }

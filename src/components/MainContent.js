@@ -7,6 +7,7 @@ import TodosPage from '../pages/TodosPage.js';
 import AddTodoPage from '../pages/AddTodoPage.js';
 import ExpensesPage from '../pages/ExpensesPage.js';
 import AddExpensePage from '../pages/AddExpensePage.js';
+import EditExpensePage from '../pages/EditExpensePage.js';
 
 export default function MainContent() {
     const styles = {
@@ -20,6 +21,7 @@ export default function MainContent() {
                 <Route path="/add-todo" element={<AddTodoPage />} />
                 <Route path="/expenses" element={<ExpensesPage />} />
                 <Route path="/add-expense" element={<AddExpensePage />} />
+                <Route path="/edit-expense/:expenseId" element={<EditExpensePage />} />
                 <Route path="/locate-items" element={<LocateItemsPage />} />
                 <Route path="/" exact element={<HomePage />} />
             </Routes>

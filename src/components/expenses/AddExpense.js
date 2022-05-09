@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -9,26 +9,28 @@ import { useNavigate } from 'react-router-dom';
 import Container from '../../components/ui/Container';
 
 export default function AddExpense(props) {
-    const dateRef = useRef();
-    const spentOnRef = useRef();
-    const amountRef = useRef();
-    const detailsRef = useRef();
+    const [date, setDate] = useState('');
+    const [spentOn, setSpentOn] = useState('');
+    const [amount, setAmount] = useState('');
+    const [details, setDetails] = useState('');
 
     const navigate = useNavigate();
 
-    function saveHandler(event) {
+    useEffect(() => onLoadHandler(), []);
+    function onLoadHandler() {
+        if (props.mode === 'edit') {
+            setDate(props.expDetails.date)
+            setSpentOn(props.expDetails.spentOn);
+            setAmount(props.expDetails.amount);
+            setDetails(props.expDetails.details);
+        }
+    }
+
+    function submitHandler(event) {
         event.preventDefault();
-        const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-        const expense = {
-            id: expenses.length ? expenses[0].id + 1 : 1,
-            date: dateRef.current.value,
-            spentOn: spentOnRef.current.value,
-            amount: amountRef.current.value,
-            details: detailsRef.current.value,
-        };
-        expenses.unshift(expense);
-        localStorage.setItem('expenses', JSON.stringify(expenses));
-        navigate('/expenses');
+
+        let expense = { date, spentOn, amount, details };
+        props.onSubmitClick(expense);
     }
 
     const styles = {
@@ -37,7 +39,7 @@ export default function AddExpense(props) {
 
     return (
         <Container>
-            <form onSubmit={saveHandler}>
+            <form onSubmit={submitHandler}>
                 <Card>
                     <CardContent>
                         <TextField
@@ -49,7 +51,8 @@ export default function AddExpense(props) {
                             InputLabelProps={{
                                 shrink: true,
                             }}
-                            inputRef={dateRef}
+                            value={date}
+                            onChange={event => setDate(event.target.value)}
                         />
                         <div className="mt-1">
                             <TextField
@@ -57,7 +60,8 @@ export default function AddExpense(props) {
                                 label="Spent on"
                                 variant="filled"
                                 sx={styles.formControl}
-                                inputRef={spentOnRef}
+                                value={spentOn}
+                                onChange={event => setSpentOn(event.target.value)}
                                 required
                             />
                         </div>
@@ -68,7 +72,8 @@ export default function AddExpense(props) {
                                 label="Amount"
                                 variant="filled"
                                 sx={styles.formControl}
-                                inputRef={amountRef}
+                                value={amount}
+                                onChange={event => setAmount(event.target.value)}
                                 required
                             />
                         </div>
@@ -80,7 +85,8 @@ export default function AddExpense(props) {
                                 rows="3"
                                 variant="filled"
                                 sx={styles.formControl}
-                                inputRef={detailsRef}
+                                value={details}
+                                onChange={event => setDetails(event.target.value)}
                             />
                         </div>
                     </CardContent>

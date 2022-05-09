@@ -33,7 +33,7 @@ export default function Expense(props) {
                     <Typography>
                         <b>Details:</b> {props.expense.details}
                     </Typography>
-                    <ExpenseActions />
+                    <ExpenseActions id={props.expense.id} />
                 </AccordionDetails>
             </Accordion>
         </>

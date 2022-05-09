@@ -3,8 +3,20 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
 
-export default function ExpenseActions() {
+export default function ExpenseActions(props) {
+    const navigate = useNavigate();
+
+    function editHandler() {
+        let expenseId = props.id;
+        navigate(`/edit-expense/${expenseId}`);
+    }
+
+    function deleteHandler() {
+        alert(props.id)
+    }
+
     const styles = {
         container: { textAlign: 'right', marginTop: '0.5rem' },
     };
@@ -15,8 +27,17 @@ export default function ExpenseActions() {
                 variant="contained"
                 aria-label="outlined primary button group"
             >
-                <Button startIcon={<EditIcon />}>Edit</Button>
-                <Button color="error" startIcon={<DeleteIcon />}>
+                <Button
+                    startIcon={<EditIcon />}
+                    onClick={editHandler}
+                >
+                    Edit
+                </Button>
+                <Button
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                    onClick={deleteHandler}
+                >
                     Delete
                 </Button>
             </ButtonGroup>

@@ -10,7 +10,7 @@ import TodayIcon from '@mui/icons-material/Today';
 import { changeDate } from '../../helper-functions/change-date';
 
 export default function ExpensesNavBar(props) {
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState(props.date);
     const [btnTodayState, toggleBtnTodayState] = useState(true);
 
     function changeDateClickHandler(numOfDays) {
