@@ -14,7 +14,7 @@ export default function Expenses(props) {
             {props.expenses.map((expense) => {
                 expense.amount = parseInt(expense.amount).toFixed(2);
                 total = total + parseInt(expense.amount);
-                return <Expense key={expense.id} expense={expense} />;
+                return <Expense key={expense.id} expense={expense} onDeleteClick={props.onDeleteClick} />;
             })}
 
             <ExpensesFooter total={total} />

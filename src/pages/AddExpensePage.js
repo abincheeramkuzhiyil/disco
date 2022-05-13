@@ -1,11 +1,12 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import FormHeader from '../components/widgets/FormHeader';
-import AddExpense from '../components/expenses/AddExpense';
+import ExpenseForm from '../components/expenses/ExpenseForm';
 
 export default function AddExpensePage() {
     const navigate = useNavigate();
+    const location = useLocation();
 
     function saveExpenseHandler(expense) {
         const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
@@ -16,7 +17,8 @@ export default function AddExpensePage() {
         expenses.unshift(expense);
         localStorage.setItem('expenses', JSON.stringify(expenses));
 
-        navigate('/expenses');
+        const state = { date: expense.date }
+        navigate('/expenses', { state });
     }
 
     function cancelAndGoBackHandler() {
@@ -29,7 +31,7 @@ export default function AddExpensePage() {
                 heading="Add Expense"
                 onBtnBackClick={cancelAndGoBackHandler}
             />
-            <AddExpense onSubmitClick={saveExpenseHandler} />
+            <ExpenseForm onSubmitClick={saveExpenseHandler} date={location.state.date} />
         </>
     );
 }

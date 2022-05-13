@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import FormHeader from '../components/widgets/FormHeader';
-import AddExpense from '../components/expenses/AddExpense';
+import ExpenseForm from '../components/expenses/ExpenseForm';
 
 export default function EditExpensePage() {
     const urlPathParams = useParams();
@@ -42,7 +42,7 @@ export default function EditExpensePage() {
                 onBtnBackClick={cancelAndGoBackHandler}
             />
             {expDetails
-                ? <AddExpense
+                ? <ExpenseForm
                     mode="edit"
                     expDetails={expDetails}
                     onSubmitClick={editExpenseHandler} />

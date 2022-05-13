@@ -9,12 +9,15 @@ export default function ExpenseActions(props) {
     const navigate = useNavigate();
 
     function editHandler() {
-        let expenseId = props.id;
+        const expenseId = props.id;
         navigate(`/edit-expense/${expenseId}`);
     }
 
     function deleteHandler() {
-        alert(props.id)
+        if (window.confirm('Are you sure you want to delete?')) {
+            const expenseId = props.id;
+            props.onDeleteClick(expenseId)
+        }
     }
 
     const styles = {

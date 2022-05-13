@@ -35,28 +35,56 @@ export default function ExpensesPage() {
         setExpenses(persistedExp.filter(e => e.date === dateString));
     }
 
+    function changeDateHandler(date) {
+        setDate(date);
+        getExpenses(date);
+    }
+
+    function deleteExpenseHandler(expenseId) {
+        const persistedExpIndex = persistedExp.findIndex(e => e.id == expenseId);
+        if (persistedExpIndex === -1) {
+            alert('Expense you are trying to delete does not exist.');
+        } else {
+            persistedExp.splice(persistedExpIndex, 1);
+            localStorage.setItem('expenses', JSON.stringify(persistedExp));
+
+            const index = expenses.findIndex(e => e.id == expenseId);
+            expenses.splice(index, 1);
+
+            setExpenses([...expenses]); // the spread operator is used to create a copy of the array, so that it create a new array and trigger state change
+        }
+    }
+
     const styles = {
         todosContainer: { padding: '1rem', backgroundColor: 'rgb(234, 238, 243)' },
         addTodo: { position: 'fixed', bottom: 20, right: 10 },
     };
 
     return (
-        < div >
+        <>
             <h2>Expenses</h2>
-            <Grid container spacing={0}>
-                <Grid item xs={12} md={6}>
-                    <Container>
-                        {(date)
-                            ? (<>
-                                <ExpensesNavBar date={date} changeDate={getExpenses} />
+            {(date)
+                ?
+                <>
+                    <Grid container spacing={0}>
+                        <Grid item xs={12} md={6}>
+                            <Container>
+                                <ExpensesNavBar date={date} changeDate={changeDateHandler} />
                                 <br />
-                                <Expenses expenses={expenses}></Expenses>
-                            </>)
-                            : <Loading />}
-                    </Container>
-                </Grid>
-            </Grid>
-            <AddButton redirectUrl="/add-expense" />
-        </div >
+                                <Expenses
+                                    expenses={expenses}
+                                    onDeleteClick={deleteExpenseHandler}>
+                                </Expenses>
+                            </Container>
+                        </Grid>
+                    </Grid>
+                    <AddButton
+                        redirectUrl="/add-expense"
+                        state={{ date: date }}
+                    />
+                </>
+                : <Loading />}
+
+        </>
     );
 }

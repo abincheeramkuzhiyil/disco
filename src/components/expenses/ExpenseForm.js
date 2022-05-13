@@ -4,17 +4,15 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
 
-import Container from '../../components/ui/Container';
+import Container from '../ui/Container';
+import { formatDateForDateControl } from '../../helper-functions/change-date'
 
-export default function AddExpense(props) {
+export default function ExpenseForm(props) {
     const [date, setDate] = useState('');
     const [spentOn, setSpentOn] = useState('');
     const [amount, setAmount] = useState('');
     const [details, setDetails] = useState('');
-
-    const navigate = useNavigate();
 
     useEffect(() => onLoadHandler(), []);
     function onLoadHandler() {
@@ -23,6 +21,11 @@ export default function AddExpense(props) {
             setSpentOn(props.expDetails.spentOn);
             setAmount(props.expDetails.amount);
             setDetails(props.expDetails.details);
+        }
+        else {
+            debugger
+            const formattedDate = formatDateForDateControl(props.date);
+            setDate(formattedDate);
         }
     }
 

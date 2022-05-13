@@ -7,22 +7,20 @@ import IconButton from '@mui/material/IconButton';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import TodayIcon from '@mui/icons-material/Today';
+
 import { changeDate } from '../../helper-functions/change-date';
 
 export default function ExpensesNavBar(props) {
-    const [date, setDate] = useState(props.date);
     const [btnTodayState, toggleBtnTodayState] = useState(true);
 
     function changeDateClickHandler(numOfDays) {
-        const newDate = changeDate(date, numOfDays);
-        setDate(newDate);
+        const newDate = changeDate(props.date, numOfDays);
         toggleBtnTodayState(false);
         props.changeDate(newDate);
     }
 
     function todayClickHandler() {
         let today = new Date();
-        setDate(today);
         props.changeDate(today);
         toggleBtnTodayState(true);
     }
@@ -33,6 +31,7 @@ export default function ExpensesNavBar(props) {
 
     return (
         <>
+            {console.log('reached')}
             <Paper elevation={1} sx={{ position: 'sticky', top: '0', zIndex: 1 }}>
                 <Grid
                     container
@@ -47,7 +46,7 @@ export default function ExpensesNavBar(props) {
                     <Grid item sx={{ textAlign: 'center' }}>
                         <Stack>
                             <Typography sx={{ fontWeight: 600 }}>
-                                {date.toDateString()}
+                                {props.date.toDateString()}
                             </Typography>
                             <Typography variant="caption">
                                 <b>Total:</b> &#8377;100.00

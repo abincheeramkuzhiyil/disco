@@ -7,7 +7,7 @@ export default function AddButton(props) {
     const navigate = useNavigate();
 
     function redirectToHandler() {
-        navigate(props.redirectUrl);
+        navigate(props.redirectUrl, { state: props.state });
     }
 
     const styles = {
