@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 import HomePage from '../pages/HomePage.js';
 import LocateItemsPage from '../pages/LocateItemsPage.js';
@@ -23,6 +23,7 @@ export default function MainContent() {
                 <Route path="/add-expense" element={<AddExpensePage />} />
                 <Route path="/edit-expense/:expenseId" element={<EditExpensePage />} />
                 <Route path="/locate-items" element={<LocateItemsPage />} />
+                <Route path="/disco" element={<Navigate replace to="/" />} />
                 <Route path="/" exact element={<HomePage />} />
             </Routes>
         </main>
