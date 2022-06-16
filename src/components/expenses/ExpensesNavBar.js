@@ -8,13 +8,21 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import TodayIcon from '@mui/icons-material/Today';
 
-import { changeDate } from '../../helper-functions/change-date';
+import { changeDate, changeMonth } from '../../helper-functions/change-date';
+import ExpensesNavBarDate from './ExpensesNavBarDate';
+import { RATE_OF_CHANGE } from '../../constants/rate-of-change';
 
 export default function ExpensesNavBar(props) {
     const [btnTodayState, toggleBtnTodayState] = useState(true);
 
-    function changeDateClickHandler(numOfDays) {
-        const newDate = changeDate(props.date, numOfDays);
+    function changeDateClickHandler(changeByValue) {
+        let newDate;
+
+        if (props.rateOfChange === RATE_OF_CHANGE.daily)
+            newDate = changeDate(props.date, changeByValue);
+        else if (props.rateOfChange === RATE_OF_CHANGE.monthly)
+            newDate = changeMonth(props.date, changeByValue)
+
         toggleBtnTodayState(false);
         props.changeDate(newDate);
     }
@@ -46,7 +54,7 @@ export default function ExpensesNavBar(props) {
                     <Grid item sx={{ textAlign: 'center' }}>
                         <Stack>
                             <Typography sx={{ fontWeight: 600 }}>
-                                {props.date.toDateString()}
+                                <ExpensesNavBarDate date={props.date} rateOfChange={props.rateOfChange} />
                             </Typography>
                             <Typography variant="caption">
                                 <b>Total:</b> &#8377;100.00

@@ -19,7 +19,7 @@ export default function MainContent() {
             <Routes>
                 <Route path="/todos" element={<TodosPage />} />
                 <Route path="/add-todo" element={<AddTodoPage />} />
-                <Route path="/expenses" element={<ExpensesPage />} />
+                <Route path="/expenses/*" element={<ExpensesPage />} />
                 <Route path="/add-expense" element={<AddExpensePage />} />
                 <Route path="/edit-expense/:expenseId" element={<EditExpensePage />} />
                 <Route path="/locate-items" element={<LocateItemsPage />} />

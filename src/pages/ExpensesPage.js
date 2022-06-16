@@ -1,90 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import Grid from '@mui/material/Grid';
-import { useLocation } from 'react-router-dom';
+import { FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
+import React, { useState } from "react";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 
-import AddButton from '../components/widgets/AddButton';
-import Container from '../components/ui/Container';
-import Expenses from '../components/expenses/Expenses';
-import ExpensesNavBar from '../components/expenses/ExpensesNavBar';
-import Loading from '../components/widgets/Loading';
+import ExpensesDayView from "../components/expenses/expensesDayView/ExpensesDayView";
+import ExpensesMonthView from "../components/expenses/expensesMonthView/ExpensesMonthView";
+import { EXPENSES_VIEW_TYPE } from "../constants/expenses-view-type";
 
 export default function ExpensesPage() {
-    const persistedExp = JSON.parse(localStorage.getItem('expenses')) || [];
-    const [expenses, setExpenses] = useState([]);
-    const [date, setDate] = useState(null);
-    const location = useLocation();
+    const [expensesViewType, setExpensesViewType] = useState(EXPENSES_VIEW_TYPE.day);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        if (location.state && location.state.date) {
-            setDate(new Date(location.state.date));
-            getExpenses(new Date(location.state.date))
-        } else {
-            setDate(new Date());
-            getExpenses(new Date());
-        }
-    }, []);
+    function expensesViewTypeChangeHandler(event) {
+        const expViewType = event.target.value;
+        setExpensesViewType(expViewType);
 
-    function getExpenses(date) {
-        let month = String(date.getMonth() + 1);
-        month = month.length === 1 ? `0${month}` : month;
-
-        let day = String(date.getDate());
-        day = day.length === 1 ? `0${day}` : day;
-
-        const dateString = `${date.getFullYear()}-${month}-${day}`;
-        setExpenses(persistedExp.filter(e => e.date === dateString));
+        if (expViewType === EXPENSES_VIEW_TYPE.day)
+            navigate(`/expenses`);
+        if (expViewType === EXPENSES_VIEW_TYPE.month)
+            navigate(`/expenses/month-view`);
     }
-
-    function changeDateHandler(date) {
-        setDate(date);
-        getExpenses(date);
-    }
-
-    function deleteExpenseHandler(expenseId) {
-        const persistedExpIndex = persistedExp.findIndex(e => e.id == expenseId);
-        if (persistedExpIndex === -1) {
-            alert('Expense you are trying to delete does not exist.');
-        } else {
-            persistedExp.splice(persistedExpIndex, 1);
-            localStorage.setItem('expenses', JSON.stringify(persistedExp));
-
-            const index = expenses.findIndex(e => e.id == expenseId);
-            expenses.splice(index, 1);
-
-            setExpenses([...expenses]); // the spread operator is used to create a copy of the array, so that it create a new array and trigger state change
-        }
-    }
-
-    const styles = {
-        todosContainer: { padding: '1rem', backgroundColor: 'rgb(234, 238, 243)' },
-        addTodo: { position: 'fixed', bottom: 20, right: 10 },
-    };
 
     return (
         <>
-            <h2>Expenses</h2>
-            {(date)
-                ?
-                <>
-                    <Grid container spacing={0}>
-                        <Grid item xs={12} md={6}>
-                            <Container>
-                                <ExpensesNavBar date={date} changeDate={changeDateHandler} />
-                                <br />
-                                <Expenses
-                                    expenses={expenses}
-                                    onDeleteClick={deleteExpenseHandler}>
-                                </Expenses>
-                            </Container>
-                        </Grid>
-                    </Grid>
-                    <AddButton
-                        redirectUrl="/add-expense"
-                        state={{ date: date }}
-                    />
-                </>
-                : <Loading />}
+            <Grid container spacing={0} sx={{ marginTop: '-0.75rem' }}>
+                <Grid item xs={6} md={3}>
+                    <h2>Expenses</h2>
+                </Grid>
+                <Grid item xs={6} md={3} sx={{ textAlign: 'right' }}>
+                    <FormControl variant="standard" sx={{ mt: 2, mb: 1 }}>
+                        <InputLabel id="demo-simple-select-standard-label">View</InputLabel>
+                        <Select
+                            value={expensesViewType}
+                            onChange={expensesViewTypeChangeHandler}
+                            label="View"
+                        >
+                            <MenuItem value={EXPENSES_VIEW_TYPE.day}>Day</MenuItem>
+                            <MenuItem value={EXPENSES_VIEW_TYPE.month}>Month</MenuItem>
+                            <MenuItem value={EXPENSES_VIEW_TYPE.year}>Year</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+            </Grid>
 
+            <Routes>
+                <Route path="/" exact element={<ExpensesDayView />} />
+                <Route path="/month-view" exact element={<ExpensesMonthView />} />
+                <Route path="/year-view" element={<ExpensesDayView />} />
+            </Routes>
         </>
     );
 }
