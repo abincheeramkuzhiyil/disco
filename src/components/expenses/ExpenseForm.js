@@ -23,7 +23,6 @@ export default function ExpenseForm(props) {
             setDetails(props.expDetails.details);
         }
         else {
-            debugger
             const formattedDate = formatDateForDateControl(props.date);
             setDate(formattedDate);
         }

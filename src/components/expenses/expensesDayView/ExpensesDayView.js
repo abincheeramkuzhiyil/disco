@@ -7,6 +7,7 @@ import Container from '../../ui/Container';
 import Expenses from './Expenses';
 import ExpensesNavBar from '../ExpensesNavBar';
 import Loading from '../../widgets/Loading';
+import { getExpensesForDay } from '../../../stores/expenses-store';
 
 export default function ExpensesDayView() {
     const persistedExp = JSON.parse(localStorage.getItem('expenses')) || [];
@@ -25,14 +26,8 @@ export default function ExpensesDayView() {
     }, []);
 
     function getExpenses(date) {
-        let month = String(date.getMonth() + 1);
-        month = month.length === 1 ? `0${month}` : month;
-
-        let day = String(date.getDate());
-        day = day.length === 1 ? `0${day}` : day;
-
-        const dateString = `${date.getFullYear()}-${month}-${day}`;
-        setExpenses(persistedExp.filter(e => e.date === dateString));
+        const expensesForDay = getExpensesForDay(persistedExp, date);
+        setExpenses(expensesForDay);
     }
 
     function changeDateHandler(date) {

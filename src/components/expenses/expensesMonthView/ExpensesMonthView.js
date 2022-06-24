@@ -5,10 +5,10 @@ import Container from "../../ui/Container";
 import ExpensesNavBar from "../ExpensesNavBar";
 import Expenses from "./Expenses";
 import Loading from "../../widgets/Loading";
-import { getMonthAndYear, getLastDayInMonthInfo, getWeekDayName } from "../../../helper-functions/format-date";
+import { getLastDayInMonthInfo, getWeekDayName } from "../../../helper-functions/format-date";
 
 export default function ExpensesMonthView() {
-    const persistedExp = JSON.parse(localStorage.getItem('expenses')) || [];
+    const persistedExps = JSON.parse(localStorage.getItem('expenses')) || [];
     const [expenses, setExpenses] = useState([]);
     const [date, setDate] = useState(null)
 
@@ -30,18 +30,18 @@ export default function ExpensesMonthView() {
 
     function getExpDetailsForSpentDays(month, year) {
         const expsForMonth = [];
-        for (let i = 0; i < persistedExp.length; i++) {
-            const expDate = new Date(persistedExp[i].date);
+        for (let i = 0; i < persistedExps.length; i++) {
+            const expDate = new Date(persistedExps[i].date);
 
             if (expDate.getMonth() === month && expDate.getFullYear() === year) {
                 const expDay = expDate.getDate();
                 const totalAmountForDay = expsForMonth[expDay] && expsForMonth[expDay].amount;
                 if (totalAmountForDay) {
-                    expsForMonth[expDay].amount = totalAmountForDay + Number(persistedExp[i].amount)
+                    expsForMonth[expDay].amount = totalAmountForDay + Number(persistedExps[i].amount)
                 } else {
                     expsForMonth[expDay] = {
                         day: `${getWeekDayName(expDate.getDay())} ${expDay}`,
-                        amount: Number(persistedExp[i].amount)
+                        amount: Number(persistedExps[i].amount)
                     }
                 }
             }
@@ -80,8 +80,14 @@ export default function ExpensesMonthView() {
                                     rateOfChange={'monthly'}
                                     changeDate={changeDateHandler}
                                 />
+
                                 <br />
-                                <Expenses expenses={expenses} />
+
+                                <Expenses
+                                    expenses={expenses}
+                                    month={date.getMonth()}
+                                    year={date.getFullYear()}
+                                    persistedExps={persistedExps} />
                             </Container>
                         </Grid>
                     </Grid>

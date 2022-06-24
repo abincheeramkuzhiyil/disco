@@ -12,7 +12,6 @@ export function getWeekDayName(day) {
 }
 
 export function getLastDayInMonthInfo(date) {
-    debugger
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     const dateOfLastDayInMonth = new Date(year, month, 0)
