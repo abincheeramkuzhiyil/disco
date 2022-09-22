@@ -1,22 +1,26 @@
 import React, { useState } from "react";
+import { Table, TableBody, TableContainer } from "@mui/material";
 
 import ExpensesFooter from "../ExpensesFooter";
 import ExpensesHeader from "../ExpensesHeader";
 import Expense from "./Expense";
 import { EXPENSES_VIEW_TYPE } from "../../../constants/expenses-view-type";
-import { Table, TableBody, TableContainer } from "@mui/material";
 import ExpensesDayDetails from "./ExpensesDayDetails";
+import { getMonthName } from "../../../helper-functions/format-date";
 
 export default function Expenses(props) {
-    const [dateToGetExpsDetails, setDateToGetExpsDetails] = useState(null);
+    const [expDetailsForSelectedDay, setExpDetailsForSelectedDay] = useState(null);
 
-    function getExpsDetailsForDayHandler(dayInNumFormat) {
-        const date = new Date(props.year, props.month, dayInNumFormat);
-        setDateToGetExpsDetails(date);
+    function openExpsDetailsForDayHandler(expDetails, day, dayName) {
+        setExpDetailsForSelectedDay({
+            day,
+            dayName,
+            details: expDetails
+        });
     }
 
     function closeExpsDetailsHandler() {
-        setDateToGetExpsDetails(null);
+        setExpDetailsForSelectedDay(null);
     }
 
     let total = 0;
@@ -35,7 +39,7 @@ export default function Expenses(props) {
                                 key={expense.day}
                                 expense={expense}
                                 dayInNumFormat={index + 1}
-                                getExpsDetailsForDay={getExpsDetailsForDayHandler} />
+                                openExpsDetailsForDayHandler={openExpsDetailsForDayHandler} />
                         })}
                     </TableBody>
                 </Table>
@@ -43,11 +47,15 @@ export default function Expenses(props) {
 
             <ExpensesFooter total={total} />
 
-            {dateToGetExpsDetails
+            {expDetailsForSelectedDay
                 ? <ExpensesDayDetails
-                    date={dateToGetExpsDetails}
+                    day={expDetailsForSelectedDay.day}
+                    dayName={expDetailsForSelectedDay.dayName}
+                    month={props.month}
+                    monthName={getMonthName(props.month)}
+                    year={props.year}
                     closeExpsDetails={closeExpsDetailsHandler}
-                    persistedExps={props.persistedExps} />
+                    expenses={expDetailsForSelectedDay.details} />
                 : <></>}
         </>
     );

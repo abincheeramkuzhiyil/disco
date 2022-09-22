@@ -1,17 +1,16 @@
 import { AppBar, Dialog, Grid, IconButton, Slide, Toolbar, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 
-import Expenses from "../expensesDayView/Expenses";
 import Container from "../../ui/Container";
+import Expenses from "../expensesMonthView/Expenses";
 
-export default function ExpensesDayDetails(props) {
-    console.log('test', props)
+export default function ExpensesMonthDetails(props) {
     const [open, setOpen] = useState(true);
 
     function handleClose() {
         setOpen(false);
-        props.closeExpsDetails();
+        props.closeExpsDetailsForMonthHandler();
     };
 
     const Transition = React.forwardRef(function Transition(props, ref) {
@@ -24,7 +23,7 @@ export default function ExpensesDayDetails(props) {
     }
 
     return (
-        <div>
+        <>
             <Dialog
                 fullScreen
                 open={open}
@@ -34,7 +33,7 @@ export default function ExpensesDayDetails(props) {
                 <AppBar sx={{ position: 'sticky' }}>
                     <Toolbar>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            {`${props.dayName}, ${props.day} ${props.monthName} ${props.year}`}
+                            {`${props.monthName} ${props.year}`}
                         </Typography>
                         <IconButton
                             edge="start"
@@ -52,12 +51,12 @@ export default function ExpensesDayDetails(props) {
                 <Grid container spacing={0} style={styles.mainContent}>
                     <Grid item xs={12} md={6}>
                         <Container>
-                            <Expenses expenses={props.expenses} />
+                            <Expenses year={props.year} month={props.month} expenses={props.expenses} />
                         </Container>
                     </Grid>
                 </Grid>
 
             </Dialog>
-        </div>
+        </>
     );
 }

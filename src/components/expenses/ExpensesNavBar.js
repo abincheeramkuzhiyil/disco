@@ -8,7 +8,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import TodayIcon from '@mui/icons-material/Today';
 
-import { changeDate, changeMonth } from '../../helper-functions/change-date';
+import { changeDate, changeMonth, changeYear } from '../../helper-functions/change-date';
 import ExpensesNavBarDate from './ExpensesNavBarDate';
 import { RATE_OF_CHANGE } from '../../constants/rate-of-change';
 
@@ -22,6 +22,8 @@ export default function ExpensesNavBar(props) {
             newDate = changeDate(props.date, changeByValue);
         else if (props.rateOfChange === RATE_OF_CHANGE.monthly)
             newDate = changeMonth(props.date, changeByValue)
+        else if (props.rateOfChange === RATE_OF_CHANGE.yearly)
+            newDate = changeYear(props.date, changeByValue)
 
         toggleBtnTodayState(false);
         props.changeDate(newDate);
@@ -39,7 +41,6 @@ export default function ExpensesNavBar(props) {
 
     return (
         <>
-            {console.log('reached')}
             <Paper elevation={1} sx={{ position: 'sticky', top: '0', zIndex: 1 }}>
                 <Grid
                     container

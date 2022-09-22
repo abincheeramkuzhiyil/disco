@@ -4,6 +4,7 @@ import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 
 import ExpensesDayView from "../components/expenses/expensesDayView/ExpensesDayView";
 import ExpensesMonthView from "../components/expenses/expensesMonthView/ExpensesMonthView";
+import ExpensesYearView from "../components/expenses/expensesYearView/ExpensesYearView";
 import { EXPENSES_VIEW_TYPE } from "../constants/expenses-view-type";
 
 export default function ExpensesPage() {
@@ -16,8 +17,10 @@ export default function ExpensesPage() {
 
         if (expViewType === EXPENSES_VIEW_TYPE.day)
             navigate(`/expenses`);
-        if (expViewType === EXPENSES_VIEW_TYPE.month)
+        else if (expViewType === EXPENSES_VIEW_TYPE.month)
             navigate(`/expenses/month-view`);
+        else if (expViewType === EXPENSES_VIEW_TYPE.year)
+            navigate('/expenses/year-view')
     }
 
     return (
@@ -45,7 +48,7 @@ export default function ExpensesPage() {
             <Routes>
                 <Route path="/" exact element={<ExpensesDayView />} />
                 <Route path="/month-view" exact element={<ExpensesMonthView />} />
-                <Route path="/year-view" element={<ExpensesDayView />} />
+                <Route path="/year-view" element={<ExpensesYearView />} />
             </Routes>
         </>
     );

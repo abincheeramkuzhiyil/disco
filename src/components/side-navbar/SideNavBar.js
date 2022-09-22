@@ -33,7 +33,8 @@ export default function SideNavBar() {
         { text: 'Home', url: '/', icon: 'HomeIcon' },
         { text: 'Todos', url: '/todos', icon: 'HomeIcon' },
         { text: 'Expenses', url: '/expenses', icon: 'HomeIcon' },
-        { text: 'Locate items', url: '/locate-items', icon: 'HomeIcon' },
+        { text: 'Locate Items', url: '/locate-items', icon: 'HomeIcon' },
+        { text: 'Export Data', url: '/export-data', icon: 'HomeIcon' }
     ];
 
     return (

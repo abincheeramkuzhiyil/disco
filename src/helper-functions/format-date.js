@@ -11,6 +11,11 @@ export function getWeekDayName(day) {
     return weekday[day];
 }
 
+export function getMonthName(month) {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return months[month];
+}
+
 export function getLastDayInMonthInfo(date) {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();

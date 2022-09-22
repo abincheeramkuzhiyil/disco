@@ -8,6 +8,7 @@ import AddTodoPage from '../pages/AddTodoPage.js';
 import ExpensesPage from '../pages/ExpensesPage.js';
 import AddExpensePage from '../pages/AddExpensePage.js';
 import EditExpensePage from '../pages/EditExpensePage.js';
+import ExportDataPage from '../pages/ExportDataPage.js';
 
 export default function MainContent() {
     const styles = {
@@ -23,6 +24,7 @@ export default function MainContent() {
                 <Route path="/add-expense" element={<AddExpensePage />} />
                 <Route path="/edit-expense/:expenseId" element={<EditExpensePage />} />
                 <Route path="/locate-items" element={<LocateItemsPage />} />
+                <Route path="/export-data" element={<ExportDataPage />} />
                 <Route path="/disco" element={<Navigate replace to="/" />} />
                 <Route path="/" exact element={<HomePage />} />
             </Routes>

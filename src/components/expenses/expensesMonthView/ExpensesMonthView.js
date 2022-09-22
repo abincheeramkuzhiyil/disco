@@ -20,45 +20,40 @@ export default function ExpensesMonthView() {
     function getExpenses(date) {
         const month = date.getMonth();
         const year = date.getFullYear();
-
-        let expsForMonth = getExpDetailsForSpentDays(month, year);
         const numOfDaysInMonth = getLastDayInMonthInfo(date).lastDayInMonth;
-        expsForMonth = setExpDetailsToNonSpentDays(expsForMonth, numOfDaysInMonth, month, year);
-        expsForMonth.shift();
+
+        let expsForMonth = initializeExpsForMonth(numOfDaysInMonth, month, year);
+        expsForMonth = getExpsForMonth(month, year, expsForMonth);
         setExpenses(expsForMonth);
     }
 
-    function getExpDetailsForSpentDays(month, year) {
+    function initializeExpsForMonth(numOfDaysInMonth, month, year) {
         const expsForMonth = [];
-        for (let i = 0; i < persistedExps.length; i++) {
-            const expDate = new Date(persistedExps[i].date);
-
-            if (expDate.getMonth() === month && expDate.getFullYear() === year) {
-                const expDay = expDate.getDate();
-                const totalAmountForDay = expsForMonth[expDay] && expsForMonth[expDay].amount;
-                if (totalAmountForDay) {
-                    expsForMonth[expDay].amount = totalAmountForDay + Number(persistedExps[i].amount)
-                } else {
-                    expsForMonth[expDay] = {
-                        day: `${getWeekDayName(expDate.getDay())} ${expDay}`,
-                        amount: Number(persistedExps[i].amount)
-                    }
-                }
+        for (let day = 1; day <= numOfDaysInMonth; day++) {
+            expsForMonth[day] = {
+                day,
+                dayName: getWeekDayName(new Date(year, month, day).getDay()),
+                amount: 0,
+                details: []
             }
         }
+        // adding an item at index 0 of the array, 
+        // this is for easiness to work later on as array is zero based indexed
+        expsForMonth.unshift(null);
         return expsForMonth;
     }
 
-    function setExpDetailsToNonSpentDays(expsForMonth, numOfDaysInMonth, month, year) {
-        for (let day = 1; day <= numOfDaysInMonth; day++) {
-            if (!expsForMonth[day]) {
-                let expDate = new Date(year, month, day)
-                expsForMonth[day] = {
-                    day: `${getWeekDayName(expDate.getDay())} ${day}`,
-                    amount: 0
-                }
+    function getExpsForMonth(month, year, expsForMonth) {
+        for (let i = 0; i < persistedExps.length; i++) {
+            const expDate = new Date(persistedExps[i].date);
+            if (expDate.getFullYear() === year && expDate.getMonth() === month) {
+                const expDay = expDate.getDate();
+                expsForMonth[expDay].amount += Number(persistedExps[i].amount);
+                expsForMonth[expDay].details.push(persistedExps[i]);
             }
         }
+        // removing item at index 0, as its existence is not required anymore
+        expsForMonth.shift();
         return expsForMonth;
     }
 
@@ -80,14 +75,11 @@ export default function ExpensesMonthView() {
                                     rateOfChange={'monthly'}
                                     changeDate={changeDateHandler}
                                 />
-
                                 <br />
-
                                 <Expenses
                                     expenses={expenses}
                                     month={date.getMonth()}
-                                    year={date.getFullYear()}
-                                    persistedExps={persistedExps} />
+                                    year={date.getFullYear()} />
                             </Container>
                         </Grid>
                     </Grid>

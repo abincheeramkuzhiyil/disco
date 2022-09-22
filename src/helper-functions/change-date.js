@@ -14,6 +14,14 @@ export function changeMonth(date, numOfMonths) {
     );
 }
 
+export function changeYear(date, numOfYears) {
+    return new Date(
+        date.getFullYear() + numOfYears,
+        date.getMonth(),
+        date.getDate()
+    );
+}
+
 export function formatDateForDateControl(date) {
     let day = String(date.getDate());
     day = day.length === 1 ? `0${day}` : day;
