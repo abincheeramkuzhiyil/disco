@@ -48,8 +48,8 @@ export default function ExpensesMonthDetails(props) {
 
                 <br />
 
-                <Grid container spacing={0} style={styles.mainContent}>
-                    <Grid item xs={12} md={6}>
+                <Grid container spacing={0}>
+                    <Grid item xs={12} md={6} style={styles.mainContent}>
                         <Container>
                             <Expenses year={props.year} month={props.month} expenses={props.expenses} />
                         </Container>

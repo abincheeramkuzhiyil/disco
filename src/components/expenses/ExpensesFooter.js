@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 export default function ExpensesFooter(props) {
     return (
-        <Accordion expanded={false}>
+        <Accordion expanded={false} sx={{ position: 'sticky', bottom: 0 }}>
             <AccordionSummary aria-controls="panel-footer" id="panel-footer">
                 <Typography sx={{ width: '60%', flexShrink: 0, fontWeight: 600 }}>
                     Total

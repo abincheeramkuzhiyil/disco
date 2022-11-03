@@ -1,5 +1,5 @@
 import { AppBar, Dialog, Grid, IconButton, Slide, Toolbar, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 
 import Expenses from "../expensesDayView/Expenses";
@@ -49,8 +49,8 @@ export default function ExpensesDayDetails(props) {
 
                 <br />
 
-                <Grid container spacing={0} style={styles.mainContent}>
-                    <Grid item xs={12} md={6}>
+                <Grid container spacing={0}>
+                    <Grid item xs={12} md={6} style={styles.mainContent}>
                         <Container>
                             <Expenses expenses={props.expenses} />
                         </Container>

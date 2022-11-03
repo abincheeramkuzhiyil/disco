@@ -37,9 +37,6 @@ export default function ExpensesMonthView() {
                 details: []
             }
         }
-        // adding an item at index 0 of the array, 
-        // this is for easiness to work later on as array is zero based indexed
-        expsForMonth.unshift(null);
         return expsForMonth;
     }
 
