@@ -26,6 +26,7 @@ export default function ExpensesNavBar(props) {
             newDate = changeYear(props.date, changeByValue)
 
         toggleBtnTodayState(false);
+        window.scroll(0, 0);
         props.changeDate(newDate);
     }
 
@@ -41,7 +42,7 @@ export default function ExpensesNavBar(props) {
 
     return (
         <>
-            <Paper elevation={1} sx={{ position: 'sticky', top: '0', zIndex: 1 }}>
+            <Paper elevation={1} sx={{ position: 'sticky', top: '56px', zIndex: 1 }}>
                 <Grid
                     container
                     spacing={0}
@@ -63,8 +64,8 @@ export default function ExpensesNavBar(props) {
                         </Stack>
                     </Grid>
                     <Grid item>
-                        <Grid container>
-                            <Grid item>
+                        
+                          <Grid container>  <Grid item>
                                 <IconButton onClick={() => changeDateClickHandler(1)}>
                                     <KeyboardArrowRightIcon sx={styles.icon} />
                                 </IconButton>
